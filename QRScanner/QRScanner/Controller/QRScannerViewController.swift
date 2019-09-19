@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class QRScannerViewController: UIViewController {
     
@@ -49,6 +50,15 @@ class QRScannerViewController: UIViewController {
         }
     }
 
+    @IBAction func lightButtonAction(_ sender: UIButton) {
+    
+        let avDevice = AVCaptureDevice.default(for: AVMediaType.video)!
+        let touchFlg = avDevice.isTorchActive
+        let touchFlgButtonTitle = touchFlg ? "Touch ON" : "Touch OFF"
+        sender.setTitle(touchFlgButtonTitle, for: .normal)
+        scannerView.trunLightOn(flg:touchFlg)
+    }
+    
     @IBAction func scanButtonAction(_ sender: UIButton) {
         scannerView.isRunning ? scannerView.stopScanning() : scannerView.startScanning()
         let buttonTitle = scannerView.isRunning ? "STOP" : "SCAN"

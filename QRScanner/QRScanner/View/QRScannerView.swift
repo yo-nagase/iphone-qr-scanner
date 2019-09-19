@@ -18,6 +18,8 @@ protocol QRScannerViewDelegate: class {
 }
 
 class QRScannerView: UIView {
+    //振動
+    let feedbackGenerator: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
     
     weak var delegate: QRScannerViewDelegate?
     
@@ -59,6 +61,7 @@ extension QRScannerView {
     
     /// Does the initial setup for captureSession
     private func doInitialSetup() {
+        feedbackGenerator.prepare()
         clipsToBounds = true
         captureSession = AVCaptureSession()
         
@@ -85,6 +88,7 @@ extension QRScannerView {
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417]
+            //metadataOutput.metadataObjectTypes = [.qr]
         } else {
             scanningDidFail()
             return
@@ -101,22 +105,90 @@ extension QRScannerView {
     }
     
     func found(code: String) {
-        delegate?.qrScanningSucceededWithCode(code)
+        //print("QRコードが見つかりました。" + code)
+        //delegate?.qrScanningSucceededWithCode(code)
     }
+    
+    func trunLightOn(flg: Bool){
+
+        let avDevice = AVCaptureDevice.default(for: AVMediaType.video)!
+        
+        if avDevice.hasTorch {
+            do {
+                // torch device lock on
+                try avDevice.lockForConfiguration()
+                
+                if (flg){
+                    // flash LED ON
+                    avDevice.torchMode = AVCaptureDevice.TorchMode.off
+                } else {
+                    // flash LED OFF
+                    avDevice.torchMode = AVCaptureDevice.TorchMode.on
+                }
+            
+                // torch device unlock
+                avDevice.unlockForConfiguration()
+                
+            } catch {
+                print("Torch could not be used")
+            }
+        } else {
+            print("Torch is not available")
+        }
+    
+    }
+    
     
 }
 
+
+//バーコードが見つかると呼ばれる。
 extension QRScannerView: AVCaptureMetadataOutputObjectsDelegate {
+    
     func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
-        stopScanning()
+   
+        //stopScanning()
         
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            
+            //震える
+           // AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+           
+            feedbackGenerator.impactOccurred()
+          
+            print("バーコードがみつかりました。" + stringValue,
+                  metadataObjects.count)
+            
+       
+            //trunLightOn()
             found(code: stringValue)
+        }
+        
+        for i in 0 ..< metadataObjects.count{
+            if let metadataObject = metadataObjects[i] as? AVMetadataMachineReadableCodeObject{
+                
+                guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
+                guard let stringValue = readableObject.stringValue else { return }
+                
+                print("✩"+stringValue)
+//                let fullSize = self.layer.bounds
+//
+//                self.readBarcodeView[i].frame.origin.x = fullSize.width - object.bounds.maxY * fullSize.width
+//                self.readBarcodeView[i].frame.origin.y = object.bounds.minX * fullSize.height
+//                self.readBarcodeView[i].frame.size.width = object.bounds.width * fullSize.width * 2
+//                self.readBarcodeView[i].frame.size.height = object.bounds.height * fullSize.height / 2
+//
+//                self.readBarcodeViewDescriptionLabel[i].frame.origin.x = fullSize.width - object.bounds.maxY * fullSize.width
+//                self.readBarcodeViewDescriptionLabel[i].frame.origin.y = object.bounds.minX * fullSize.height - 20
+//                self.readBarcodeViewDescriptionLabel[i].frame.size.width = 100
+//                self.readBarcodeViewDescriptionLabel[i].frame.size.height = 20
+//                self.readBarcodeViewDescriptionLabel[i].text = textData[i]
+                
+            }
         }
     }
     

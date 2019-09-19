@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ooZ-am-ucH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ooZ-am-ucH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -26,7 +26,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ZE-7K-NwS">
-                                <rect key="frame" x="87.5" y="427" width="200" height="50"/>
+                                <rect key="frame" x="155" y="427" width="200" height="50"/>
                                 <color key="backgroundColor" red="0.79458792099999997" green="0.27550812429999999" blue="0.20028522970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="Bam-2P-GFH"/>
@@ -46,14 +46,35 @@
                                     <action selector="scanButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PvH-dn-pux"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="UrW-BF-gh7">
+                                <rect key="frame" x="20" y="485" width="339" height="172"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xcw-GI-4fZ">
+                                <rect key="frame" x="20" y="427" width="107" height="50"/>
+                                <state key="normal" title="Light ON"/>
+                                <connections>
+                                    <action selector="lightButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M7v-fp-KNv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Xcw-GI-4fZ" firstAttribute="leading" secondItem="UrW-BF-gh7" secondAttribute="leading" id="1qE-La-ZQ8"/>
+                            <constraint firstItem="Xcw-GI-4fZ" firstAttribute="top" secondItem="2ZE-7K-NwS" secondAttribute="top" id="2v9-8t-oX1"/>
+                            <constraint firstItem="UrW-BF-gh7" firstAttribute="top" secondItem="2ZE-7K-NwS" secondAttribute="bottom" constant="8" symbolic="YES" id="J8g-0l-d5t"/>
+                            <constraint firstItem="2ZE-7K-NwS" firstAttribute="leading" secondItem="Xcw-GI-4fZ" secondAttribute="trailing" constant="28" id="TtQ-z4-Na1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="UrW-BF-gh7" secondAttribute="bottom" constant="10" id="UiE-Kh-xUR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="k5d-QF-enP" secondAttribute="trailing" constant="20" id="aLd-BU-xpd"/>
                             <constraint firstItem="2ZE-7K-NwS" firstAttribute="top" secondItem="k5d-QF-enP" secondAttribute="bottom" constant="8" id="hx7-Il-b9f"/>
-                            <constraint firstItem="2ZE-7K-NwS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kaJ-e7-MmT"/>
+                            <constraint firstItem="2ZE-7K-NwS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="67.5" id="kaJ-e7-MmT"/>
                             <constraint firstItem="k5d-QF-enP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="mTS-1l-qnS"/>
+                            <constraint firstItem="Xcw-GI-4fZ" firstAttribute="firstBaseline" secondItem="2ZE-7K-NwS" secondAttribute="baseline" id="tDm-63-j5f"/>
+                            <constraint firstItem="UrW-BF-gh7" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="vVf-2G-evJ"/>
                             <constraint firstItem="k5d-QF-enP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="vzL-HR-vdi"/>
+                            <constraint firstItem="UrW-BF-gh7" firstAttribute="leading" secondItem="k5d-QF-enP" secondAttribute="leading" id="xzT-xw-iCp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
