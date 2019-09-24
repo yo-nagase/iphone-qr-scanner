@@ -18,6 +18,7 @@ class QRScannerViewController: UIViewController {
     }
     @IBOutlet weak var scanButton: UIButton! {
         didSet {
+            print("Stop pressed")
             scanButton.setTitle("STOP", for: .normal)
         }
     }

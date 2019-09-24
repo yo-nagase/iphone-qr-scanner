@@ -18,8 +18,17 @@ protocol QRScannerViewDelegate: class {
 }
 
 class QRScannerView: UIView {
+    var readBarcodeView:[UIView] = [UIView.init(frame: CGRect(x: 0, y:0, width: 10, height: 10)),
+                                    UIView.init(frame: CGRect(x: 0, y:0, width: 10, height: 10)),
+                                    UIView.init(frame: CGRect(x: 0, y:0, width: 10, height: 10)),
+                                    UIView.init(frame: CGRect(x: 0, y:0, width: 10, height: 10))]
+    var readBarcodeViewDescriptionLabel = [UILabel.init(frame: CGRect(x: 0, y:0, width: 10, height: 10)),
+                                           UILabel.init(frame: CGRect(x: 0, y:0, width: 10, height: 10)),
+                                           UILabel.init(frame: CGRect(x: 0, y:0, width: 10, height: 10)),
+                                           UILabel.init(frame: CGRect(x: 0, y:0, width: 10, height: 10))]
     //振動
     let feedbackGenerator: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+    private var dataList: [AnyHashable] = []
     
     weak var delegate: QRScannerViewDelegate?
     
@@ -94,11 +103,20 @@ extension QRScannerView {
             return
         }
         
+        
+        for i in 0 ..< readBarcodeView.count{
+             readBarcodeView[i].backgroundColor = .green
+             readBarcodeView[i].layer.zPosition = .greatestFiniteMagnitude
+             self.addSubview(readBarcodeView[i])
+        }
+      
+        
         self.layer.session = captureSession
         self.layer.videoGravity = .resizeAspectFill
         
         captureSession?.startRunning()
     }
+    
     func scanningDidFail() {
         delegate?.qrScanningDidFail()
         captureSession = nil
@@ -147,7 +165,7 @@ extension QRScannerView: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
-                        from connection: AVCaptureConnection) {
+                        from connection: AVCaptureConnection ) {
    
         //stopScanning()
         
@@ -163,7 +181,6 @@ extension QRScannerView: AVCaptureMetadataOutputObjectsDelegate {
             print("バーコードがみつかりました。" + stringValue,
                   metadataObjects.count)
             
-       
             //trunLightOn()
             found(code: stringValue)
         }
@@ -175,21 +192,29 @@ extension QRScannerView: AVCaptureMetadataOutputObjectsDelegate {
                 guard let stringValue = readableObject.stringValue else { return }
                 
                 print("✩"+stringValue)
-//                let fullSize = self.layer.bounds
-//
-//                self.readBarcodeView[i].frame.origin.x = fullSize.width - object.bounds.maxY * fullSize.width
-//                self.readBarcodeView[i].frame.origin.y = object.bounds.minX * fullSize.height
-//                self.readBarcodeView[i].frame.size.width = object.bounds.width * fullSize.width * 2
-//                self.readBarcodeView[i].frame.size.height = object.bounds.height * fullSize.height / 2
-//
-//                self.readBarcodeViewDescriptionLabel[i].frame.origin.x = fullSize.width - object.bounds.maxY * fullSize.width
-//                self.readBarcodeViewDescriptionLabel[i].frame.origin.y = object.bounds.minX * fullSize.height - 20
-//                self.readBarcodeViewDescriptionLabel[i].frame.size.width = 100
-//                self.readBarcodeViewDescriptionLabel[i].frame.size.height = 20
-//                self.readBarcodeViewDescriptionLabel[i].text = textData[i]
-                
+                let fullSize = self.layer.bounds
+
+                self.readBarcodeView[i].frame.origin.x = fullSize.width - metadataObject.bounds.maxY * fullSize.width
+                self.readBarcodeView[i].frame.origin.y = metadataObject.bounds.minX * fullSize.height
+                self.readBarcodeView[i].frame.size.width = metadataObject.bounds.width * fullSize.width * 2
+                self.readBarcodeView[i].frame.size.height = metadataObject.bounds.height * fullSize.height / 2
+
+                self.readBarcodeViewDescriptionLabel[i].frame.origin.x = fullSize.width - metadataObject.bounds.maxY * fullSize.width
+                self.readBarcodeViewDescriptionLabel[i].frame.origin.y = metadataObject.bounds.minX * fullSize.height - 20
+                self.readBarcodeViewDescriptionLabel[i].frame.size.width = 100
+                self.readBarcodeViewDescriptionLabel[i].frame.size.height = 20
+               // self.readBarcodeViewDescriptionLabel[i].text = textData[i]
+                dataList.append(stringValue)
             }
         }
+        //データ重複を取り除く
+        dataList = Array(Set(dataList))
+        print(dataList.count)
+//        let a = dataList.count
+//         for i in 0 ..< textData.count{
+//             dataList.append(textData[i])
+//         }
+//         dataList = Array(Set(dataList))
     }
     
 }
