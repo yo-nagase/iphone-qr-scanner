@@ -151,6 +151,7 @@
 				TargetAttributes = {
 					92368502223624F7005C1AD7 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1100;
 					};
 				};
 			};
@@ -343,7 +344,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.abhilash.QRScanner.QRScanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -361,7 +362,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.abhilash.QRScanner.QRScanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

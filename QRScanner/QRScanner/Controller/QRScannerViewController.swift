@@ -8,11 +8,14 @@
 
 import UIKit
 import AVFoundation
+import SwiftUI
 
 class QRScannerViewController: UIViewController {
-    
+  
+    @IBOutlet weak var readCounterLabel: UILabel!
     @IBOutlet weak var scannerView: QRScannerView! {
         didSet {
+            
             scannerView.delegate = self
         }
     }
@@ -81,8 +84,6 @@ extension QRScannerViewController: QRScannerViewDelegate {
     func qrScanningSucceededWithCode(_ str: String?) {
         self.qrData = QRData(codeString: str)
     }
-    
-    
     
 }
 
